@@ -1,0 +1,13 @@
+# main modules
+django >4.2,<4.3
+asgiref==3.8.1
+python-decouple==3.8
+sqlparse==0.5.1
+typing_extensions==4.12.2
+django-debug-toolbar
+
+
+# database modules
+psycopg[binary]
+python-decouple
+psycopg-binary==3.2.1
