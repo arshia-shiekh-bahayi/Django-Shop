@@ -11,7 +11,7 @@
   <title>{% block title %} {% endblock title %}</title>
   
   <!-- Favicon -->
-  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="shortcut icon" href="{% static '/favicon.ico' %}">
 
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
@@ -22,6 +22,7 @@
 
   <!-- CSS Front Template -->
   <link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
+  <link rel="stylesheet" href="{% static 'vendor/toastify/toastify.css' %}">
   {% block extra_css %} {% endblock extra_css %}
 
   {% block extra_css_no_comperes %} {% endblock extra_css_no_comperes %}
@@ -144,7 +145,7 @@
               </button>
               <!-- End Shopping Cart -->
 
-              <a class="btn btn-primary btn-transition" href="./page-login-simple.html">ورود</a>
+              <a class="btn btn-primary btn-transition" href="{% url 'accounts:login' %}">ورود</a>
             </li>
           </ul>
         </div>
@@ -466,6 +467,8 @@
 
   <!-- JS Front -->
   <script src="{% static 'js/theme.min.js' %}"></script>
+  <!-- JS Toastify -->
+  <script src="{% static 'vendor/toastify/toastify.js' %}"></script>
 
   <!-- JS Plugins Init. -->
   <script>
@@ -568,9 +571,12 @@
       })
     })()
   </script>
+
   {% block extra_js %} {% endblock extra_js %}
 
   {% block extra_js_no_comperes %} {% endblock extra_js_no_comperes %}
+
+  {% include 'message.html' %}
 </body>
 
 </html>
