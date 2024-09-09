@@ -1,26 +1,42 @@
 from django.contrib.auth import views as auth_views
 from django.urls import reverse
+from django.shortcuts import redirect
 from .forms import AuthenticationForm
-from django.contrib.auth.tokens import default_token_generator
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.encoding import force_bytes
-from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import PasswordResetForm
-from django.contrib.auth import get_user_model
+from django.urls import reverse_lazy as _
+from django.contrib.auth.views import PasswordResetView
+from django.contrib.messages.views import SuccessMessageMixin
 
-User = get_user_model()
-
-class LoginView(auth_views.LoginView):
+class Login(auth_views.LoginView):
     template_name = 'accounts/login.html'
     form_class = AuthenticationForm
     redirect_authenticated_user = True
     def get_default_redirect_url(self):
         return reverse('website:index')
 
-class LogoutView(auth_views.LogoutView):
+class Logout(auth_views.LogoutView):
     # template_name = 'accounts/logout.html'
     def get_default_redirect_url(self):
         return reverse('website:index')
+    
+class ResetPassword(SuccessMessageMixin, PasswordResetView):
+    template_name = 'accounts/password_reset.html'
+    email_template_name = 'accounts/password_reset_email.html'
+    subject_template_name = 'accounts/password_reset_subject.txt'
+    success_message = "We've emailed you instructions for setting your password, " \
+                      "if an account exists with the email you entered. You should receive them shortly." \
+                      " If you don't receive an email, " \
+                      "please make sure you've entered the address you registered with, and check your spam folder."
+
+    success_url = _('accounts:password_reset_done')
+    
+    
+class PasswordResetConfirm(auth_views.PasswordResetConfirmView):
+    template_name='accounts/password_reset_confirm.html'
+    success_url =  _('accounts:password_reset_complete')
+    
+class PasswordResetComplete(auth_views.PasswordResetCompleteView):
+    template_name='accounts/password_reset_complete.html'
+    
+class PasswordResetDone (auth_views.PasswordResetDoneView):
+    template_name='accounts/password_reset_done.html'
+    
