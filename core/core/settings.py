@@ -168,3 +168,6 @@ EMAIL_PORT = 25
 CELERY_BROKER_URL = 'redis://redis:6379/0'
 CELERY_ACCEPT_CONTENT = ['json']
 CELERY_TASK_SERIALIZER = 'json'
+
+# password reset token timeout
+PASSWORD_RESET_TIMEOUT = 172800 # 48 hours
