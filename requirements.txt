@@ -7,7 +7,7 @@ typing_extensions==4.12.2
 django-debug-toolbar
 celery==5.2.7
 redis==4.1.0
-
+pillow
 
 # database modules
 psycopg[binary]
