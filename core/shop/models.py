@@ -11,9 +11,11 @@ class ProductCategoryModel(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(allow_unicode=True)
     
-    create_date = models.DateTimeField(auto_now_add=True)
-    update = models.DateTimeField(auto_now=True)
-
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_data = models.DateTimeField(auto_now=True)
+    
+    def __str__(self):
+        return self.title
 
 class ProductModel(models.Model):
     user = models.ForeignKey("accounts.User",on_delete=models.PROTECT)
@@ -24,16 +26,21 @@ class ProductModel(models.Model):
     description = models.TextField()
     stock = models.PositiveIntegerField(default=0)
     status = models.IntegerField(choices=ProductStatusType.choices,default=ProductStatusType.draft)
-    price= models.DecimalField(default=0,max_digits=None,decimal_places=0)
+    price= models.DecimalField(default=0,max_digits=10,decimal_places=0)
     discount_percent = models.IntegerField(default=0)
     
-    create_date = models.DateTimeField(auto_now_add=True)
-    update = models.DateTimeField(auto_now=True)
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_data = models.DateTimeField(auto_now=True)
     
+    class Meta:
+        ordering = ["-created_date"]
+        
+    def __str__(self):
+        return self.title    
 class ProductImageModel(models.Model):
     product = models.ForeignKey("accounts.User",on_delete=models.CASCADE)
     file = models.ImageField(upload_to='product/extra-img/') 
     
-    create_date = models.DateTimeField(auto_now_add=True)
-    update = models.DateTimeField(auto_now=True)   
+    created_date = models.DateTimeField(auto_now_add=True)
+    updated_date = models.DateTimeField(auto_now=True)   
     
