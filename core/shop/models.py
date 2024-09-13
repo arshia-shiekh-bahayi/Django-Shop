@@ -1,3 +1,4 @@
+from decimal import Decimal
 from django.db import models
 
 class ProductStatusType(models.IntegerChoices):
@@ -37,6 +38,13 @@ class ProductModel(models.Model):
         
     def __str__(self):
         return self.title    
+    
+    def get_show_price(self):
+        discount_amount = self.price * Decimal(self.discount_percent / 100)
+        discounted_amount = self.price - discount_amount
+        return '{:,}'.format(round(discounted_amount))
+        
+        
 class ProductImageModel(models.Model):
     product = models.ForeignKey("accounts.User",on_delete=models.CASCADE)
     file = models.ImageField(upload_to='product/extra-img/') 
