@@ -66,8 +66,17 @@
             <!-- Form -->
             <form action="." class="w-100">
               <div class="border-bottom pb-4 mb-4">
+                <h5>جستجوی کالا</h5>
+                <div class="d-grid gap-2">
+                  <div class="form-group">
+                    <label class="form-check-label d-flex" for="searchQuery">جستجو </label>
+                    <input class="form-control" placeholder="واژه مورد نظر را وارد نمایید " type="text" name="q"
+                      id="searchQuery">
+                  </div>
+                </div>
+              </div>
+              <div class="border-bottom pb-4 mb-4">
                 <h5>قیمت</h5>
-
                 <div class="d-grid gap-2">
                   <!-- Checkboxes -->
                   <div class="form-group">
@@ -84,9 +93,13 @@
                 <h5>دسته بندی</h5>
                 <div class="d-grid gap-2">
                   <div class="mb-2 mb-sm-0 me-sm-2">
-                    <select class="form-select form-select-sm" name="category" >
+                    <select class="form-select form-select-sm" name="category">
                       <option value="" selected>انتخاب دسته بندی</option>
-                      <option value="" selected>دیجیتال</option>
+                      {% for category in categories %}
+                      <option value="{{category.id}}">{{category.title}}</option>
+                      {% empty %}
+                      <option value="" selected>هیچ دسته بندی برای نمایش وجود ندارد</option>
+                      {% endfor %}
                     </select>
                   </div>
                 </div>
@@ -113,18 +126,19 @@
             <div class="d-sm-flex justify-content-sm-end align-items-center">
               <!-- Select -->
               <div class="mb-2 mb-sm-0 me-sm-2">
-                <select class="form-select form-select-sm">
+                <select class="form-select form-select-sm" name="ordering">
                   <option value="Relevance" selected>مرتب سازی</option>
-                  <option value="mostRecent">حروف الفبا</option>
-                  <option value="mostRecent">قیمت</option>
-                  <option value="mostRecent">امتیاز</option>
+                  <option value="mostRecent">جدیدترین</option>
+                  <option value="mostRecent">قدیمی ترین</option>
+                  <option value="mostRecent">بیشترین قیمت</option>
+                  <option value="mostRecent">کمترین قیمت</option>
                 </select>
               </div>
               <!-- End Select -->
 
               <!-- Select -->
               <div class="mb-2 mb-sm-0 me-sm-2">
-                <select class="form-select form-select-sm">
+                <select class="form-select form-select-sm" name="page_size">
                   <option value="alphabeticalOrderSelect1" selected>تعداد در صفحه</option>
                   <option value="alphabeticalOrderSelect2">9</option>
                   <option value="alphabeticalOrderSelect2">10</option>
@@ -187,6 +201,7 @@
                   <a class="text-dark" href="{% url 'shop:product-detail' slug=product.slug %}">{{product.title}}</a>
                 </h4>
                 <p class="card-text text-dark">{{product.get_show_price}} تومان</p>
+                <span class="ms-2"><del>{{product.get_show_raw_price}} تومان</del></span>
               </div>
 
               <div class="card-footer pt-0">

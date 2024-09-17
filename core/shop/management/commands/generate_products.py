@@ -31,7 +31,7 @@ class Command(BaseCommand):
 
         categories = ProductCategoryModel.objects.all()
 
-        for _ in range(10):  # Generate 10 fake products
+        for _ in range(100):  # Generate 10 fake products
             user = user  
             num_categories = random.randint(1, 4)
             selected_categories = random.sample(list(categories), num_categories)
@@ -60,4 +60,4 @@ class Command(BaseCommand):
             )
             product.category.set(selected_categories)
 
-        self.stdout.write(self.style.SUCCESS('Successfully generated 10 fake products'))
+        self.stdout.write(self.style.SUCCESS('Successfully generated 100 fake products'))
