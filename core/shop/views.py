@@ -7,7 +7,7 @@ from django.views.generic import (
     DetailView,
     )
 from .models import ProductModel, ProductStatusType, ProductCategoryModel
-
+from django.core.exceptions import FieldError
 
 class ShopProductGridView(ListView):
     template_name = 'shop/product-grid.html'
@@ -15,7 +15,7 @@ class ShopProductGridView(ListView):
     context_object_name = 'products'
     def get_paginate_by(self, queryset):
         return self.request.GET.get('page_size', self.paginate_by)
-    
+        
     def get_queryset(self):
         queryset = ProductModel.objects.filter(status=ProductStatusType.publish.value)
         if search_q := self.request.GET.get("q"):
@@ -26,10 +26,10 @@ class ShopProductGridView(ListView):
            queryset = queryset.filter(price__gte=min_price)
         if max_price := self.request.GET.get("max_price"):
            queryset = queryset.filter(price__lte=max_price)
-        if ordering := self.request.GET.get("ordering"):
+        if ordering := self.request.GET.get("order_by"):
            try:
             queryset = queryset.order_by(ordering)
-           except:
+           except FieldError:
             pass
         return queryset
     

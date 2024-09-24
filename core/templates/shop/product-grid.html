@@ -104,6 +104,7 @@
                   </div>
                 </div>
               </div>
+
               <div class="d-grid">
                 <button type="submit" class="btn btn-white btn-transmition">اعمال فیلتر</button>
               </div>
@@ -126,24 +127,24 @@
             <div class="d-sm-flex justify-content-sm-end align-items-center">
               <!-- Select -->
               <div class="mb-2 mb-sm-0 me-sm-2">
-                <select class="form-select form-select-sm" name="ordering">
-                  <option value="Relevance" selected>مرتب سازی</option>
-                  <option value="mostRecent">جدیدترین</option>
-                  <option value="mostRecent">قدیمی ترین</option>
-                  <option value="mostRecent">بیشترین قیمت</option>
-                  <option value="mostRecent">کمترین قیمت</option>
+                <select class="form-select form-select-sm" id="order-by-filter">
+                  <option value="" selected>مرتب سازی</option>
+                  <option value="-created_date">جدیدترین</option>
+                  <option value="created_date">قدیمی ترین</option>
+                  <option value="-price">بیشترین قیمت</option>
+                  <option value="price">کمترین قیمت</option>
                 </select>
               </div>
               <!-- End Select -->
-
               <!-- Select -->
               <div class="mb-2 mb-sm-0 me-sm-2">
-                <select class="form-select form-select-sm" name="page_size">
-                  <option value="alphabeticalOrderSelect1" selected>تعداد در صفحه</option>
-                  <option value="alphabeticalOrderSelect2">9</option>
-                  <option value="alphabeticalOrderSelect2">10</option>
-                  <option value="alphabeticalOrderSelect2">11</option>
-                  <option value="alphabeticalOrderSelect2">12</option>
+                <select class="form-select form-select-sm" id="page-size-filter">
+                  <option value="" selected>تعداد در صفحه</option>
+                  <option value="5">5</option>
+                  <option value="10">10</option>
+                  <option value="20">20</option>
+                  <option value="30">30</option>
+                  <option value="50">50</option>
                 </select>
               </div>
               <!-- End Select -->
@@ -151,12 +152,12 @@
               <!-- Nav -->
               <ul class="nav nav-segment">
                 <li class="nav-item">
-                  <a class="nav-link active" href="/products-grid.html">
+                  <a class="nav-link active" href="{% url 'shop:product-grid' %}">
                     <i class="bi-grid-fill"></i>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="/products-list.html">
+                  <a class="nav-link" href="#">
                     <i class="bi-list"></i>
                   </a>
                 </li>
@@ -249,8 +250,8 @@
             {% for i in page_obj.paginator.page_range %}
             {% if page_obj.number == i %}
             <li class="page-item active"><a class="page-link">{{i}}</a></li>
-            {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li class="page-item"><a
-                class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+            {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li class="page-item"><button
+                class="page-link" href="changePage({{i}})">{{ i }}</button></li>
               {% endif %}
               {% endfor %}
 
@@ -346,3 +347,43 @@
   <!-- End Clients -->
 </main>
 {% endblock content %}
+
+
+{% block extra_js %}
+<script>
+
+  $(document).ready(function () {
+    let current_url_params = new URLSearchParams(window.location.search)
+    $("#page-size-filter").val(current_url_params.get("page_size") || "")
+    $("#order-by-filter").val(current_url_params.get("order_by") || "")
+    $("#search-query-filter").val(current_url_params.get("q") || "")
+    $("#min-price-filter").val(current_url_params.get("min_price") || "")
+    $("#max-price-filter").val(current_url_params.get("max_price") || "")
+    $("#category-id-filter").val(current_url_params.get("category_id") || "")
+
+  });
+  $('#page-size-filter').change(function () {
+    let current_url_params = new URLSearchParams(window.location.search)
+    var selectedOption = $(this).val();
+    current_url_params.set("page_size", selectedOption)
+    let new_url = window.location.pathname + "?" + current_url_params.toString()
+    window.location.href = new_url
+  });
+  $('#order-by-filter').change(function () {
+    let current_url_params = new URLSearchParams(window.location.search)
+    var selectedOption = $(this).val();
+    current_url_params.set("order_by", selectedOption)
+    let new_url = window.location.pathname + "?" + current_url_params.toString()
+    window.location.href = new_url
+  });
+
+</script>
+<script>
+  function changePage(page_number){
+    let current_url_params = new URLSearchParams(window.location.search)
+    current_url_params.set("page",page_number)
+    let new_url = window.location.pathname + "?" + current_url_params.toString()
+    window.location.href = new_url
+  }
+</script>
+{% endblock %}
