@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import View
+from django.views.generic import View, TemplateView
 from django.http import JsonResponse
 from .cart import CartSession
 from shop.models import ProductModel, ProductStatusType
@@ -12,3 +12,6 @@ class SessionAddProduct(View):
         if product_id:
             cart.add_product(product_id)
         return JsonResponse({"cart":cart.get_cart_dict()})
+    
+class SessionCartSummary(TemplateView):
+    template_name = "cart/cart-summary.html"

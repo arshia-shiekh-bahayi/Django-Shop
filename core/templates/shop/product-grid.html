@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block content %}
+
 <main id="content" role="main">
   <!-- Breadcrumb -->
   <div>
@@ -350,6 +351,9 @@
   </div>
   <!-- End Clients -->
 </main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/cart.js' %}"></script>
+<script src="{% static 'js/custom.js' %}"></script>
 {% endblock content %}
 
 
@@ -382,30 +386,10 @@
   });
 
 </script>
+
 <script>
-  function changePage(page_number) {
-    let current_url_params = new URLSearchParams(window.location.search)
-    current_url_params.set("page", page_number)
-    let new_url = window.location.pathname + "?" + current_url_params.toString()
-    window.location.href = new_url
-  }
+  var addToCartUrl = "{% url 'cart:session-add-product' %}";
+  var csrfToken = '{{ csrf_token }}';
 </script>
-<script>
-  function addToCart(product_id) {
-    $.ajax({
-      url: "{% url 'cart:session-add-product' %}",
-      method: "POST",
-      data: {
-        product_id: product_id,
-        csrfmiddlewaretoken: '{{csrf_token}}'
-      },
-      success: function (response) {
-        console.log(response);
-      },
-      error: function (jqXHR, testStatus, errorThrown) {
-        console.log(errorThrown);
-      }
-    })
-  }
-</script>
+
 {% endblock %}
