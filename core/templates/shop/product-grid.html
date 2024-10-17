@@ -205,7 +205,7 @@
                 <h4 class="card-title">
                   <a class="text-dark" href="{% url 'shop:product-detail' slug=product.slug %}">{{product.title}}</a>
                 </h4>
-                <p class="card-text text-dark">{{product.get_show_price}} تومان</p>
+                <p class="card-text text-dark">{{product.show_price}} تومان</p>
                 <span class="ms-2"><del>{{product.get_show_raw_price}} تومان</del></span>
               </div>
 
@@ -352,7 +352,7 @@
   <!-- End Clients -->
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="{% static 'js/cart.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="{% static 'js/custom.js' %}"></script>
 {% endblock content %}
 
@@ -385,11 +385,6 @@
     window.location.href = new_url
   });
 
-</script>
-
-<script>
-  var addToCartUrl = "{% url 'cart:session-add-product' %}";
-  var csrfToken = '{{ csrf_token }}';
 </script>
 
 {% endblock %}

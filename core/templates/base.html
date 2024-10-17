@@ -18,6 +18,7 @@
       }
       return cookieValue;
     }
+
     var csrftoken = getCookie('csrftoken');
 
     $.ajaxSetup({
@@ -28,31 +29,36 @@
       }
     });
   </script>
-  <!-- Required Meta Tags Always Come First -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+</head>
+<!-- Required Meta Tags Always Come First -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Title -->
-  <title>{% block title %} {% endblock title %}</title>
+<!-- Title -->
+<title>{% block title %} {% endblock title %}</title>
 
-  <!-- Favicon -->
-  <link rel="shortcut icon" href="{% static '/favicon.ico' %}">
+<!-- Favicon -->
+<link rel="shortcut icon" href="{% static '/favicon.ico' %}">
 
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-  <!-- CSS Implementing Plugins -->
-  <link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
-  <link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.css' %}">
-
-  <!-- CSS Front Template -->
-  <link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
-  <link rel="stylesheet" href="{% static 'vendor/toastify/toastify.css' %}">
+<!-- CSS Implementing Plugins -->
+<link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.css' %}">
 
 
-  {% block extra_css %} {% endblock extra_css %}
+<!-- CSS Front Template -->
+<link rel="stylesheet" href="{% static 'css/theme.min.css' %}">
+<link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<link rel="stylesheet" href="{% static 'vendor/toastify/toastify.css' %}">
 
-  {% block extra_css_no_comperes %} {% endblock extra_css_no_comperes %}
+
+{% block extra_css %} {% endblock extra_css %}
+
+{% block extra_css_no_comperes %} {% endblock extra_css_no_comperes %}
 </head>
 
 
@@ -111,9 +117,9 @@
                 <i class="bi-basket"></i>
                 <span class="cart-item-count ">3</span>
               </button> -->
-              <a href="{% url 'cart:session-cart-summary' %}"  class="btn btn-ghost-secondary btn-icon">
+              <a href="{% url 'cart:session-cart-summary' %}" class="btn btn-ghost-secondary btn-icon">
                 <i class="bi-basket"></i>
-                <span class="cart-item-count ">{{cart.get_total_quantity}}</span>
+                <span class="cart-item-count" id="total-cart-item-count"></span>
               </a>
               <!-- End Shopping Cart -->
 
@@ -591,12 +597,34 @@
   </script>
   <!-- JS Custom-->
   <script src="{% static 'js/custom.js' %}"></script>
+  <!-- JS Cart -->
+  <script>
+    function addToCart(product_id) {
+      console.log(product_id)
+      $.ajax({
+        url: "{% url 'cart:session-add-product' %}",
+        method: 'POST',
+        data: {
+          product_id: product_id,
+          csrfmiddlewaretoken: '{{ csrf_token }}'
+        },
+        success: function (response) {
+          $('#total-cart-item-count').html(response.total_quantity);
+          console.log(response);
+        },
+        error: function (jqXHR, textStatus, errorThrown) {
+          console.log(errorThrown);
+        }
+      });
+    }
+  </script>
 
   {% block extra_js %} {% endblock extra_js %}
 
   {% block extra_js_no_comperes %} {% endblock extra_js_no_comperes %}
 
   {% include 'message.html' %}
+  <script src="{% static 'js/custom.js' %}"></script>
 </body>
 
 </html>
