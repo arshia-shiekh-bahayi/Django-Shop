@@ -185,10 +185,12 @@
                 </div>
 
                 <div class="card-pinned-top-end">
+                  {% if request.user.is_authenticated %}
                   <button type="button" class="btn btn-outline-secondary btn-xs btn-icon rounded-circle"
                     data-bs-toggle="tooltip" data-bs-placement="top" title="افزودن به علایق">
                     <i class="bi-heart"></i>
                   </button>
+                  {% endif %}
                 </div>
               </div>
 
@@ -205,8 +207,8 @@
                 <h4 class="card-title">
                   <a class="text-dark" href="{% url 'shop:product-detail' slug=product.slug %}">{{product.title}}</a>
                 </h4>
-                <p class="card-text text-dark">{{product.show_price}} تومان</p>
-                <span class="ms-2"><del>{{product.get_show_raw_price}} تومان</del></span>
+                <p class="card-text text-dark formatted-price">{{product.get_price}}</p>
+                <span class="ms-2 formatted-price"><del>{{product.price}}</del></span>
               </div>
 
               <div class="card-footer pt-0">
@@ -256,7 +258,7 @@
             {% if page_obj.number == i %}
             <li class="page-item active"><a class="page-link">{{i}}</a></li>
             {% elif i > page_obj.number|add:'-3' and i < page_obj.number|add:'3' %} <li class="page-item"><button
-                class="page-link" href="changePage({{i}})">{{ i }}</button></li>
+                class="page-link" onclick="changePage({{i}})">{{ i }}</button></li>
               {% endif %}
               {% endfor %}
 
@@ -353,7 +355,6 @@
 </main>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="{% static 'js/custom.js' %}"></script>
 {% endblock content %}
 
 
@@ -386,5 +387,13 @@
   });
 
 </script>
+<script>
+  function changePage(page_number) {
+    let current_url_params = new URLSearchParams(window.location.search);
+    current_url_params.set("page", page_number); // Set the new page number in the URL
+    let new_url = window.location.pathname + "?" + current_url_params.toString(); // Create the new URL with updated page number
+    window.location.href = new_url; // Redirect to the new URL
+  }
 
+</script>
 {% endblock %}
