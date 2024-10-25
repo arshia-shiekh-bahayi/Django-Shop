@@ -105,12 +105,12 @@
         <span class="d-block mb-2">قیمت کل:</span>
         {% if product.is_discounted %}
         <div class="d-flex align-items-center">
-          <h3 class="mb-0">{{product.get_show_price}} تومان </h3>
-          <span class="ms-2"><del>{{product.get_show_raw_price}} تومان</del></span>
+          <h3 class="mb-0 formatted-price">{{product.get_price}}</h3>
+          <span class="ms-2 formatted-price"><del>{{product.price}}</del></span>
         </div>
         {% else %}
         <div class="d-flex align-items-center">
-          <h3 class="mb-0">{{product.get_show_raw_price}} تومان </h3>
+          <h3 class="mb-0 formatted-price formatted-price">{{product.price}}</h3>
         </div>
         {% endif %}
       </div>
@@ -121,7 +121,8 @@
         <div class="js-quantity-counter row align-items-center">
           <div class="col">
             <span class="d-block small">تعداد را انتخاب کنید</span>
-            <input class="js-result form-control form-control-quantity-counter" type="text" value="1">
+            <input class="js-result form-control form-control-quantity-counter" type="text" value="1" id="quantityInput" data-stock="{{ product.stock }}">
+
           </div>
           <!-- End Col -->
 
@@ -220,7 +221,7 @@
       <!-- End Accordion -->
 
       <div class="d-grid mb-4">
-        <button type="button" class="btn btn-primary btntransition">افزودن به سبد خرید</button>
+        <button type="button" class="btn btn-primary btntransition" onclick="addToCart({{ product.id }})">افزودن به سبد خرید</button>
       </div>
 
       <!-- Media -->
@@ -646,5 +647,7 @@
     </div>
   </div>
 </div>
+
+
 <!-- End Subscribe -->
 {% endblock content %}
