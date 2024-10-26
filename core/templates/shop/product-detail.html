@@ -106,7 +106,7 @@
         {% if product.is_discounted %}
         <div class="d-flex align-items-center">
           <h3 class="mb-0 formatted-price">{{product.get_price}}</h3>
-          <span class="ms-2 formatted-price"><del>{{product.price}}</del></span>
+          <span class="ms-2"><del>{{product.get_show_raw_price}} تومان</del></span>
         </div>
         {% else %}
         <div class="d-flex align-items-center">

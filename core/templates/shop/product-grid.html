@@ -208,7 +208,7 @@
                   <a class="text-dark" href="{% url 'shop:product-detail' slug=product.slug %}">{{product.title}}</a>
                 </h4>
                 <p class="card-text text-dark formatted-price">{{product.get_price}}</p>
-                <span class="ms-2 formatted-price"><del>{{product.price}}</del></span>
+                <span class="ms-2"><del>{{product.get_show_raw_price}} تومان</del></span>
               </div>
 
               <div class="card-footer pt-0">
