@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'accounts',
     'shop',
     'cart',
+    'dashboard',
 ]
 AUTH_USER_MODEL = "accounts.User"
 MIDDLEWARE = [
