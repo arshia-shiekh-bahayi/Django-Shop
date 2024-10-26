@@ -105,7 +105,7 @@
         <span class="d-block mb-2">قیمت کل:</span>
         {% if product.is_discounted %}
         <div class="d-flex align-items-center">
-          <h3 class="mb-0">{{product.get_show_price}} تومان </h3>
+          <h3 class="mb-0 formatted-price">{{product.get_price}}</h3>
           <span class="ms-2"><del>{{product.get_show_raw_price}} تومان</del></span>
         </div>
         {% else %}
@@ -220,7 +220,7 @@
       <!-- End Accordion -->
 
       <div class="d-grid mb-4">
-        <button type="button" class="btn btn-primary btntransition">افزودن به سبد خرید</button>
+        <button type="button" class="btn btn-primary btntransition" onclick="addToCart('{{product.id}}')">افزودن به سبد خرید</button>
       </div>
 
       <!-- Media -->
