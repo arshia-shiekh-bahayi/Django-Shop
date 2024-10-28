@@ -128,7 +128,7 @@
               <button class="btn btn-ghost-secondry btn-icon" id="dropdownMenuLink" data-bs-toggle="dropdown"
                 aria-haspopup="true">
                 <span class="avatar avatar-sm avatar-circle">
-                  <img class="avatar-img" src="{% static 'img/160x160/Levi.jpg' %}" alt="Image Description">
+                  <img class="avatar-img" src="{{request.user.user_profile.image.url}}" alt="Image Description">
                 </span>
               </button>
 
