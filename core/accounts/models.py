@@ -51,6 +51,7 @@ class UserManager(BaseUserManager):
             raise ValueError(_("Superuser must have is_superuser=True."))
         return self.create_user(email, password, **extra_fields)
 
+
 class User(AbstractBaseUser, PermissionsMixin):
 
     email = models.EmailField(_("email address"), unique=True)
@@ -58,7 +59,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_verified = models.BooleanField(default=False)
     type = models.IntegerField(
-        choices=UserType.choices, default=UserType.customer.value)
+        choices=UserType.choices, default=UserType.customer.value
+    )
 
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
@@ -70,18 +72,23 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-    
+
+
 class Profile(models.Model):
-    user = models.OneToOneField('User', on_delete=models.CASCADE,related_name="user_profile")
+    user = models.OneToOneField(
+        "User", on_delete=models.CASCADE, related_name="user_profile"
+    )
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    phone_number = models.CharField(max_length=12, validators=[validate_iranian_cellphone_number])
-    image = models.ImageField(default='profile/default.jpg', upload_to='profile/')
+    phone_number = models.CharField(
+        max_length=12, validators=[validate_iranian_cellphone_number]
+    )
+    image = models.ImageField(default="profile/default.jpg", upload_to="profile/")
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
 
 
-@receiver(post_save,sender=User)
-def create_profile(sender,instance,created,**kwargs):
-    if created and instance.type == UserType.customer.value:
+@receiver(post_save, sender=User)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
         Profile.objects.create(user=instance, pk=instance.pk)

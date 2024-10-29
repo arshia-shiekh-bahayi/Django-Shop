@@ -6,38 +6,38 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('shop', '0001_initial'),
+        ("shop", "0001_initial"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='productcategorymodel',
-            old_name='create_date',
-            new_name='created_date',
+            model_name="productcategorymodel",
+            old_name="create_date",
+            new_name="created_date",
         ),
         migrations.RenameField(
-            model_name='productcategorymodel',
-            old_name='update',
-            new_name='updated_data',
+            model_name="productcategorymodel",
+            old_name="update",
+            new_name="updated_data",
         ),
         migrations.RenameField(
-            model_name='productimagemodel',
-            old_name='create_date',
-            new_name='created_date',
+            model_name="productimagemodel",
+            old_name="create_date",
+            new_name="created_date",
         ),
         migrations.RenameField(
-            model_name='productimagemodel',
-            old_name='update',
-            new_name='updated_date',
+            model_name="productimagemodel",
+            old_name="update",
+            new_name="updated_date",
         ),
         migrations.RenameField(
-            model_name='productmodel',
-            old_name='create_date',
-            new_name='created_date',
+            model_name="productmodel",
+            old_name="create_date",
+            new_name="created_date",
         ),
         migrations.RenameField(
-            model_name='productmodel',
-            old_name='update',
-            new_name='updated_data',
+            model_name="productmodel",
+            old_name="update",
+            new_name="updated_data",
         ),
     ]

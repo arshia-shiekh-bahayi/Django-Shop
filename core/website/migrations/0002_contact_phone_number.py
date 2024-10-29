@@ -7,14 +7,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('website', '0001_initial'),
+        ("website", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='contact',
-            name='phone_number',
-            field=models.CharField(default=None, max_length=12, validators=[accounts.validators.validate_iranian_cellphone_number]),
+            model_name="contact",
+            name="phone_number",
+            field=models.CharField(
+                default=None,
+                max_length=12,
+                validators=[accounts.validators.validate_iranian_cellphone_number],
+            ),
             preserve_default=False,
         ),
     ]

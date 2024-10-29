@@ -6,14 +6,26 @@ from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
+
 class CustomUserAdmin(UserAdmin):
     """
     Custom admin panel for user management with add and change forms plus password
     """
 
     model = User
-    list_display = ("id","email","is_superuser","is_active","is_verified",)
-    list_filter = ("email","is_superuser","is_active","is_verified",)
+    list_display = (
+        "id",
+        "email",
+        "is_superuser",
+        "is_active",
+        "is_verified",
+    )
+    list_filter = (
+        "email",
+        "is_superuser",
+        "is_active",
+        "is_verified",
+    )
     searching_fields = ("email",)
     ordering = ("email",)
     fieldsets = (
@@ -37,7 +49,7 @@ class CustomUserAdmin(UserAdmin):
         (
             "group permissions",
             {
-                "fields": ("groups", "user_permissions","type"),
+                "fields": ("groups", "user_permissions", "type"),
             },
         ),
         (
@@ -68,15 +80,20 @@ class CustomUserAdmin(UserAdmin):
 
 
 class CustomProfileAdmin(admin.ModelAdmin):
-    list_display = ("id","user","first_name","last_name","phone_number")
-    searching_fields = ("user","first_name","last_name","phone_number")
+    list_display = ("id", "user", "first_name", "last_name", "phone_number")
+    searching_fields = ("user", "first_name", "last_name", "phone_number")
+
 
 admin.site.register(User, CustomUserAdmin)
-admin.site.register(Profile,CustomProfileAdmin)
+admin.site.register(Profile, CustomProfileAdmin)
+
 
 class SessionsAdmin(admin.ModelAdmin):
-    def _session_data(self,obj):
+    def _session_data(self, obj):
         return obj.get_decoded()
-    list_display = ['session_key','_session_data','expire_date']
-    readonly_fields = ['_session_data']
+
+    list_display = ["session_key", "_session_data", "expire_date"]
+    readonly_fields = ["_session_data"]
+
+
 admin.site.register(Session, SessionsAdmin)
