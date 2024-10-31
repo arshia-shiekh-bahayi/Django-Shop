@@ -6,7 +6,7 @@ from django.contrib.auth import views as auth_views
 from dashboard.admin.forms import AdminPasswordChangeForm, AdminProfileEditForm
 from django.contrib.messages.views import SuccessMessageMixin
 from accounts.models import Profile
-
+from django.contrib import messages
 # Create your views here.
 
 
@@ -26,7 +26,6 @@ class AdminSecurityEditView(
     form_class = AdminPasswordChangeForm
     success_url = reverse_lazy("dashboard:admin:security-edit")
     success_message = "بروز رسانی پسورد با موفقیت انجام شد"
-
 
 class AdminProfileEditView(
     LoginRequiredMixin, HasAdminAccessPermission, SuccessMessageMixin, UpdateView
