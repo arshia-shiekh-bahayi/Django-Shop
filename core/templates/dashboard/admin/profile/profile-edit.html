@@ -14,6 +14,14 @@
 {% endblock %}
 
 {% block content %}
+{% if messages %}
+        {% for message in messages %}
+            <div class="btn btn-danger" style="margin-bottom: 15px;">
+                <p style="color: aliceblue;margin-top: 10px;">{{ message }}</p>
+            </div>
+        {% endfor %}
+{% endif %}
+
 <!-- Card -->
 <div class="card mb-3">
     <div class="card-header border-bottom">

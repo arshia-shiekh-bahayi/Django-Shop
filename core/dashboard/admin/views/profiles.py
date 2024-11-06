@@ -21,7 +21,7 @@ class AdminSecurityEditView(
     success_url = reverse_lazy("dashboard:admin:security-edit")
     success_message = "بروز رسانی پسورد با موفقیت انجام شد"
     def form_invalid(self, form):        
-        messages.error(self.request,"ناموفق")
+        messages.error(self.request,"بروزرسانی پروفایل کاربر ناموفق بود")
         return redirect(self.success_url)
 
 class AdminProfileEditView(LoginRequiredMixin, HasAdminAccessPermission, SuccessMessageMixin, UpdateView):
@@ -32,6 +32,10 @@ class AdminProfileEditView(LoginRequiredMixin, HasAdminAccessPermission, Success
 
     def get_object(self, queryset=None):
         return Profile.objects.get(user=self.request.user)
+    
+    def form_invalid(self, form):        
+        messages.error(self.request,"بروزرسانی پروفایل کاربر ناموفق بود")
+        return redirect(self.success_url)
 
 class AdminProfileImageEditView(LoginRequiredMixin, HasAdminAccessPermission, SuccessMessageMixin, UpdateView):
     http_method_names = ["post"]

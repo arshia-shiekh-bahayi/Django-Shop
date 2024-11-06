@@ -163,3 +163,4 @@ cython_debug/
 postgres/data/*
 core/media/profile/Untitled1.png
 core/media/profile/unnamed_fasGpxH.jpg
+/core/media/profile
