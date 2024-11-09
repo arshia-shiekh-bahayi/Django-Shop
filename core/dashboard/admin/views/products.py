@@ -8,19 +8,20 @@ from django.core.exceptions import FieldError
 
 # Create your views here.
 
-class AdminProductListView(LoginRequiredMixin, HasAdminAccessPermission, ListView):
-    template_name = "dashboard/admin/product/product-list.html"
-    paginate_by = 10
+class AdminProductListView(ListView):
+    template_name = "shop/product-grid.html"
+    paginate_by = 9
     context_object_name = "products"
 
     def get_paginate_by(self, queryset):
         return self.request.GET.get("page_size", self.paginate_by)
 
     def get_queryset(self):
+        # queryset = ProductModel.objects.filter(status=ProductStatusType.publish.value)
         queryset = ProductModel.objects.all()
         if search_q := self.request.GET.get("q"):
             queryset = queryset.filter(title__icontains=search_q)
-        if category_id := self.request.GET.get("category"):
+        if category_id := self.request.GET.get("category_id"):
             queryset = queryset.filter(category__id=category_id)
         if min_price := self.request.GET.get("min_price"):
             queryset = queryset.filter(price__gte=min_price)
@@ -32,6 +33,7 @@ class AdminProductListView(LoginRequiredMixin, HasAdminAccessPermission, ListVie
             except FieldError:
                 pass
         return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["total_items"] = self.get_queryset().count()
